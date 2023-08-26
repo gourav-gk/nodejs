@@ -1,0 +1,8 @@
+/NPM
+/Express/node_modules
+/Express/package-lock.json
+/Express/package.json
+/MongoDB/node_modules
+/MongoDB/package-lock.json
+/MongoDB/package.json
+/git.txt
