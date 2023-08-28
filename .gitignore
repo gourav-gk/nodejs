@@ -5,4 +5,7 @@
 /MongoDB/node_modules
 /MongoDB/package-lock.json
 /MongoDB/package.json
+/project/node_modules
+/project/package-lock.json
+/project/package.json
 /git.txt
