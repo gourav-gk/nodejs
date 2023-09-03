@@ -1,48 +1,47 @@
 const express = require('express')
-const Joi = require('joi')
+const {Category,validataData} = require('../models/categoriesmodel')
 
 const router = express.Router()
 
-
-const category = [
-    {id:1, name: 'web Development'},
-    {id:2, name: 'Mobile'},
-    {id:3, name: 'wear Os'}
-]
-
- 
-
-
-
-router.get('/category',(req,res)=>{
-    res.send(category)
+router.get('/',async (req,res)=>{
+    let categories = await Category.find()
+    res.send(categories)
 })
 
-router.post('/category',(req,res)=>{
+router.post('/',async (req,res)=>{
     
        
     const {error,value} = validataData(req.body)
     if (error) res.status(400).send(error.details[0].message)
     else{
     
-         const cat = {
-            id:category.length +1,
-            name:req.body.name
-        }
-        category.push(cat) 
+         const category = new Category({
+            name: req.body.name
+         })
+        await category.save()
+        res.send(category)
+    }
+})
+
+
+router.put('/:id', async (req,res)=>{
+    const {error} = validataData(req.body)
+    if(error) res.status(400).send(error.details[0].message)
+    else{
+        
+        const category = await Category.findByIdAndUpdate(req.params.id,{name:req.body.name},{new:true})
+
+        if(!category) res.status(400).send("This id doesnot exist")
+
         res.send(category)
     }
 })
 
 
 
-function validataData(category){
-    const schema = Joi.object({
-    name: Joi.string().min(3).required()
-})
 
-    return schema.validate(category)
-}
+
+
 
    
 module.exports = router
